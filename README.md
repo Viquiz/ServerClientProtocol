@@ -11,4 +11,5 @@ git submodule update --remote --merge
 ```
 [Git - Submodules (git-scm.com)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 ## Diagram
-![Protocol diagram](https://github.com/WhyzQuiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)
+![Protocol diagram](https://github.com/WhyzQuiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)  
+Click [here](https://app.diagrams.net/#HWhyzQuiz%2FServerClientProtocol%2Fmain%2FServerClientProtocol.png) to edit.

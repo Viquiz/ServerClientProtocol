@@ -10,3 +10,5 @@ To update submodule:
 git submodule update --remote --merge
 ```
 [Git - Submodules (git-scm.com)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+## Diagram
+![Protocol diagram](https://github.com/WhyzQuiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)

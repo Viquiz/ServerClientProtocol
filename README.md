@@ -3,7 +3,7 @@ Communication between server (ESP-32) and client (ESP-8266)
 ## Installation
 To install submodule: 
 ```
-git submodule add https://github.com/WhyzQuiz/ServerClientProtocol ./include/ServerClientProtocol/
+git submodule add https://github.com/Viquiz/ServerClientProtocol ./include/ServerClientProtocol/
 ```
 To update submodule: 
 ```

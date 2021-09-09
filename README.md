@@ -1,5 +1,5 @@
 # ServerClientProtocol
-Communication between server (ESP-32) and client (ESP-8266)
+Communication between server (ESP32) and client (ESP8266)
 ## Installation
 To install submodule: 
 ```

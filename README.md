@@ -14,4 +14,6 @@ To update submodule:
 ```
 git submodule update --remote --merge
 ```
-[Git - Submodules (git-scm.com)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+For more information or any issue related:  
+[Git - Submodules (git-scm.com)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)  
+[Empty submodule when clone repository](https://stackoverflow.com/a/11358126)

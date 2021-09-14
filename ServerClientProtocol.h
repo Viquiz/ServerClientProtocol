@@ -11,7 +11,7 @@ enum packet_t : uint8_t
     REQ_BEACON,
     RECV_ANSW,
     RESPOND_ANSW,
-    TIMEOUT,
+    TIMEOUT
 };
 
 enum btn_t : uint8_t
@@ -23,6 +23,13 @@ enum btn_t : uint8_t
     BTN_4
 };
 
+enum server_stat_t : uint8_t
+{
+    IDLE,
+    PLAYING,
+    TIMEOUT
+};
+
 // Act as a header
 struct BasePacket
 {
@@ -30,15 +37,18 @@ struct BasePacket
     BasePacket(packet_t type) : type(type) {}
 };
 
-// Unicast/Broadcast server address with password
+// Unicast/Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
     uint32_t password;
+    // server_stat_t status;
+    // EXPERIMENTAL. -1 when IDLE, 0...1 when PLAYING
+    float probability; // = (answered_clent + elapsed) / (n_client + current_question_time_limit)
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
-    BeaconPacket(int password) : BeaconPacket() { this->password = password; }
+    BeaconPacket(uint32_t password) : BeaconPacket() { this->password = password; }
 };
 
-// When client receive a BeaconPacket, it will respond a RespondBeaconPacket to the server
+// When client receive a BeaconPacket, it will send a RespondBeaconPacket to the server
 struct RespondBeaconPacket : BasePacket
 {
     RespondBeaconPacket() : BasePacket(packet_t::RESPOND_BEACON) {}
@@ -48,9 +58,9 @@ struct RespondBeaconPacket : BasePacket
 // client can broadcast this to actively receive the server address
 struct RequestBeaconPacket : BasePacket
 {
-    int password;
+    uint32_t password;
     RequestBeaconPacket() : BasePacket(packet_t::REQ_BEACON) {}
-    RequestBeaconPacket(int password) : RequestBeaconPacket() { this->password = password; }
+    RequestBeaconPacket(uint32_t password) : RequestBeaconPacket() { this->password = password; }
 };
 
 // Server receive this from client(s).

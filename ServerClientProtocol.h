@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 
-#define PASSWORD_T uint8_t
+typedef uint8_t password_t;
 
 enum packet_t : uint8_t
 {
@@ -53,10 +53,10 @@ struct BasePacket
 // Unicast/Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
-    PASSWORD_T password; // Not sure broadcast plaintext password is a good idea
+    password_t password; // Not sure broadcast plaintext password is a good idea
     GameInfo gameInfo;
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
-    BeaconPacket(PASSWORD_T password) : BeaconPacket() { this->password = password; }
+    BeaconPacket(password_t password) : BeaconPacket() { this->password = password; }
 };
 
 // An unregistered client send this packet when:
@@ -66,9 +66,9 @@ struct BeaconPacket : BasePacket
 //    Broadcast this packet
 struct RequestRegisterPacket : BasePacket
 {
-    PASSWORD_T password;
+    password_t password;
     RequestRegisterPacket() : BasePacket(packet_t::REQ_REG) {}
-    RequestRegisterPacket(PASSWORD_T password) : RequestRegisterPacket() { this->password = password; }
+    RequestRegisterPacket(password_t password) : RequestRegisterPacket() { this->password = password; }
 };
 
 struct RespondRegisterPacket : BasePacket

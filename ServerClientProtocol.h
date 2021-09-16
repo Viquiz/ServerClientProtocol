@@ -1,33 +1,46 @@
-#ifndef _SERVER_CLIENT_PROTOCOL_
-#define _SERVER_CLIENT_PROTOCOL_
-#include <Arduino.h>
 // ----------------------------------------
 // Communication between server (ESP-32) and client (ESP-8266)
 // ----------------------------------------
+#ifndef _SERVER_CLIENT_PROTOCOL_
+#define _SERVER_CLIENT_PROTOCOL_
+
+#include <Arduino.h>
+
+#define PASSWORD_T uint8_t
+
 enum packet_t : uint8_t
 {
     BEACON = 0,
-    RESPOND_BEACON,
-    REQ_BEACON,
+    REQ_REG,
+    RESPOND_REG,
     RECV_ANSW,
     RESPOND_ANSW,
     TIMEOUT
 };
 
+// @NguyenVux add bit shift value here
 enum btn_t : uint8_t
 {
-    NO_ANSW = 0,
+    NO_ANSW,
     BTN_1,
     BTN_2,
     BTN_3,
     BTN_4
 };
 
-enum server_stat_t : uint8_t
+// May be replaced by GameInfo
+enum server_stat_t : int8_t
 {
-    IDLE,
-    PLAYING,
-    TIMEOUT
+    IDLE = -1,
+    TIMEOUT,
+    PLAYING
+};
+
+struct GameInfo 
+{
+    uint8_t unanswered;
+    // Negative value can replace server_stat_t
+    int32_t milliRemain; 
 };
 
 // Act as a header
@@ -40,27 +53,28 @@ struct BasePacket
 // Unicast/Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
-    uint32_t password;
-    // server_stat_t status;
-    // EXPERIMENTAL. -1 when IDLE, 0...1 when PLAYING
-    float probability; // = (answered_clent + elapsed) / (n_client + current_question_time_limit)
+    PASSWORD_T password; // Not sure broadcast plaintext password is a good idea
+    GameInfo gameInfo;
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
-    BeaconPacket(uint32_t password) : BeaconPacket() { this->password = password; }
+    BeaconPacket(PASSWORD_T password) : BeaconPacket() { this->password = password; }
 };
 
-// When client receive a BeaconPacket, it will send a RespondBeaconPacket to the server
-struct RespondBeaconPacket : BasePacket
+// An unregistered client send this packet when:
+// 1. Receives BeaconPacket and BeaconPacket.password == userInputPassword
+// 2. (FAILSAFE) Listen for beacon timeout and either no server found or 
+//    no password matched user input -> Server out of range or incorrect password
+//    Broadcast this packet
+struct RequestRegisterPacket : BasePacket
 {
-    RespondBeaconPacket() : BasePacket(packet_t::RESPOND_BEACON) {}
+    PASSWORD_T password;
+    RequestRegisterPacket() : BasePacket(packet_t::REQ_REG) {}
+    RequestRegisterPacket(PASSWORD_T password) : RequestRegisterPacket() { this->password = password; }
 };
 
-// If for some reason the BeaconPacket can't reach the client,
-// client can broadcast this to actively receive the server address
-struct RequestBeaconPacket : BasePacket
+struct RespondRegisterPacket : BasePacket
 {
-    uint32_t password;
-    RequestBeaconPacket() : BasePacket(packet_t::REQ_BEACON) {}
-    RequestBeaconPacket(uint32_t password) : RequestBeaconPacket() { this->password = password; }
+    uint8_t id;
+    RespondRegisterPacket() : BasePacket(packet_t::RESPOND_REG) {}
 };
 
 // Server receive this from client(s).

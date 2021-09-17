@@ -6,7 +6,8 @@
 
 #include <Arduino.h>
 
-typedef uint8_t password_t;
+// DEPRECATED: Support for password without a screen is too cumbersome
+// typedef uint8_t password_t;
 
 enum packet_t : uint8_t
 {
@@ -15,10 +16,10 @@ enum packet_t : uint8_t
     RESPOND_REG,
     RECV_ANSW,
     RESPOND_ANSW,
-    TIMEOUT
+    TIMEOUT // UNUSED
 };
 
-// @NguyenVux add bit shift value here
+// @NguyenVux, @Cemu0 add bit shift value here
 enum btn_t : uint8_t
 {
     NO_ANSW,
@@ -28,7 +29,7 @@ enum btn_t : uint8_t
     BTN_4
 };
 
-// May be replaced by GameInfo
+// UNUSED, may be replaced by BeaconPacket.milliRemain
 enum server_stat_t : int8_t
 {
     IDLE = -1,
@@ -36,14 +37,6 @@ enum server_stat_t : int8_t
     PLAYING
 };
 
-struct GameInfo 
-{
-    uint8_t unanswered;
-    // Negative value can replace server_stat_t
-    int32_t milliRemain; 
-};
-
-// Act as a header
 struct BasePacket
 {
     const packet_t type;
@@ -53,22 +46,18 @@ struct BasePacket
 // Unicast/Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
-    password_t password; // Not sure broadcast plaintext password is a good idea
-    GameInfo gameInfo;
+    // Negative value can replace server_stat_t
+    int32_t milliRemain; 
+    uint8_t unanswered;
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
-    BeaconPacket(password_t password) : BeaconPacket() { this->password = password; }
 };
 
 // An unregistered client send this packet when:
-// 1. Receives BeaconPacket and BeaconPacket.password == userInputPassword
-// 2. (FAILSAFE) Listen for beacon timeout and either no server found or 
-//    no password matched user input -> Server out of range or incorrect password
-//    Broadcast this packet
+// 1. Receives BeaconPacket
+// 2. Timeout when listen for beacon and no server found, use broadcast
 struct RequestRegisterPacket : BasePacket
 {
-    password_t password;
     RequestRegisterPacket() : BasePacket(packet_t::REQ_REG) {}
-    RequestRegisterPacket(password_t password) : RequestRegisterPacket() { this->password = password; }
 };
 
 struct RespondRegisterPacket : BasePacket
@@ -77,8 +66,8 @@ struct RespondRegisterPacket : BasePacket
     RespondRegisterPacket() : BasePacket(packet_t::RESPOND_REG) {}
 };
 
-// Server receive this from client(s).
-// If timeout and client hasn't pressed a button, send NO_ANSW to the server.
+// Server receive this from client(s)
+// If timeout and client hasn't pressed a button, send NO_ANSW to the server
 // A client is considered to be disconnected if it didn't send anything
 struct AnswPacket : BasePacket
 {
@@ -95,6 +84,7 @@ struct RespondAnswPacket : BasePacket
     RespondAnswPacket(btn_t answer) : RespondAnswPacket() { this->answer = answer; }
 };
 
+// UNUSED
 struct TimeoutPacket : BasePacket
 {
     TimeoutPacket() : BasePacket(packet_t::TIMEOUT) {}

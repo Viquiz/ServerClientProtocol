@@ -2,8 +2,8 @@
 Communication between server (ESP32) and client (ESP8266)
 
 ## Diagram
-![Protocol diagram](https://github.com/WhyzQuiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)  
-Click [here](https://app.diagrams.net/#HWhyzQuiz%2FServerClientProtocol%2Fmain%2FServerClientProtocol.png) to edit.
+![Protocol diagram](https://github.com/Viquiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)  
+Click [here](https://app.diagrams.net/#HViquiz%2FServerClientProtocol%2Fmain%2FServerClientProtocol.png) to edit.
 
 ## Submodule Installation
 To install submodule: 

@@ -33,7 +33,6 @@ enum btn_t : uint8_t
 enum server_stat_t : int8_t
 {
     IDLE = -1,
-    TIMEOUT,
     PLAYING
 };
 

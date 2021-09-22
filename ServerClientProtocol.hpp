@@ -42,11 +42,11 @@ struct BasePacket
     BasePacket(packet_t type) : type(type) {}
 };
 
-// Unicast/Broadcast from server to clients
+// Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
     // Negative value can replace server_stat_t
-    int32_t milliRemain; 
+    int32_t milliRemain : 24; // Max ~2h
     uint8_t unanswered;
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
 };

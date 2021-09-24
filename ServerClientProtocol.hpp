@@ -9,6 +9,8 @@
 // DEPRECATED: Support for password without a screen is too cumbersome
 // typedef uint8_t password_t;
 
+typedef uint8_t client_t;
+
 enum packet_t : uint8_t
 {
     BEACON = 0,
@@ -30,7 +32,7 @@ enum btn_t : uint8_t
 };
 
 // UNUSED, may be replaced by BeaconPacket.milliRemain
-enum server_stat_t : int8_t
+enum server_state_t : int8_t
 {
     IDLE = -1,
     PLAYING
@@ -45,9 +47,9 @@ struct BasePacket
 // Broadcast from server to clients
 struct BeaconPacket : BasePacket
 {
-    // Negative value can replace server_stat_t
+    // Negative value can replace server_state_t
     int32_t milliRemain : 24; // Max ~2h
-    uint8_t unanswered;
+    client_t unanswered;
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
 };
 

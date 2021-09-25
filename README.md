@@ -5,6 +5,9 @@ Communication between server (ESP32) and client (ESP8266)
 ![Protocol diagram](https://github.com/Viquiz/ServerClientProtocol/blob/main/ServerClientProtocol.png)  
 Click [here](https://app.diagrams.net/#HViquiz%2FServerClientProtocol%2Fmain%2FServerClientProtocol.png) to edit.
 
+## Research
+[How ESP-NOW really works ?](https://hackaday.io/project/161896-linux-espnow/log/161046-implementation)
+
 ## Submodule Installation
 To install submodule: 
 ```

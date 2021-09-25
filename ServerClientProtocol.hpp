@@ -53,9 +53,7 @@ struct BeaconPacket : BasePacket
     BeaconPacket() : BasePacket(packet_t::BEACON) {}
 };
 
-// An unregistered client send this packet when:
-// 1. Receives BeaconPacket
-// 2. Timeout when listen for beacon and no server found, use broadcast
+// An unregistered client send this packet when receives BeaconPacket
 struct RequestRegisterPacket : BasePacket
 {
     RequestRegisterPacket() : BasePacket(packet_t::REQ_REG) {}

@@ -22,7 +22,7 @@ enum packet_t : uint8_t
 };
 
 // @NguyenVux, @Cemu0 add bit shift value here
-enum btn_t : uint8_t
+enum btn_t : int8_t
 {
     NO_ANSW,
     BTN_1,
@@ -70,17 +70,17 @@ struct RespondRegisterPacket : BasePacket
 // A client is considered to be disconnected if it didn't send anything
 struct AnswPacket : BasePacket
 {
-    btn_t button;
+    btn_t clientAnsw;
     AnswPacket() : BasePacket(packet_t::RECV_ANSW) {}
-    AnswPacket(btn_t button) : AnswPacket() { this->button = button; }
+    AnswPacket(btn_t clientAnsw) : AnswPacket() { this->clientAnsw = clientAnsw; }
 };
 
 // Send correct answer to client(s)
 struct RespondAnswPacket : BasePacket
 {
-    btn_t answer;
+    btn_t correctAnsw;
     RespondAnswPacket() : BasePacket(packet_t::RESPOND_ANSW) {}
-    RespondAnswPacket(btn_t answer) : RespondAnswPacket() { this->answer = answer; }
+    RespondAnswPacket(btn_t correctAnsw) : RespondAnswPacket() { this->correctAnsw = correctAnsw; }
 };
 
 // UNUSED

@@ -25,10 +25,10 @@ enum packet_t : uint8_t
 enum btn_t : int8_t
 {
     NO_ANSW,
-    BTN_1,
-    BTN_2,
-    BTN_3,
-    BTN_4
+    BTN_1 = 0b1,
+    BTN_2 = 0b10,
+    BTN_3 = 0b100,
+    BTN_4 = 0b1000
 };
 
 // UNUSED, may be replaced by BeaconPacket.milliRemain

@@ -24,7 +24,7 @@ enum packet_t : uint8_t
 // @NguyenVux, @Cemu0 add bit shift value here
 enum btn_t : uint8_t
 {
-    NO_ANSW,
+    NO_ANSW = 0b0,
     BTN_1 = 0b1,
     BTN_2 = 0b10,
     BTN_3 = 0b100,
